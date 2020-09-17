@@ -3,8 +3,11 @@ print("1\n"+"2\n"+"3\n"+"4\n")
 # print("1\n")
 # print("2 2\n")
 # print("3 3 3\n")
-# can be simpliflyed # TO
+# can be simpliflyed tO
 
+for line in range(1,4):
+    for x in range(line):
+        print (line, end = ' ')
+    print("\n")
 
 print("================")
-#Ctrl / will comment all
