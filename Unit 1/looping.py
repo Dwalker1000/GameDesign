@@ -1,23 +1,23 @@
 for x in range(1,10):
     print (x,end =" ")
-print(" ")
-print(" ")
+print("")
 
 for x in range(1,5):
     print (x)
 print("")
 
-a=0,
-for x in range(len(a)):
-    print(1, end = ' ')
-print("")
+#nested loops
+for line in range(1,10):
+    for x in range(line):
+        print (line, end = ' ')
+    print("")
 
-a=0,1
-for x in range(len(a)):
-    print(2, end = ' ')
-print("")
-
-a=0,1,2
-for x in range(len(a)):
-    print(3, end = ' ')
-print("")
+for line in range(1,10):
+    print()
+#both loops uses line to control flow
+    for space in range (9-line):
+        print(" ",end='')
+    for number in range (line):
+        print (line,end ='')
+    for number in range(line):
+        print (line, end = '')
