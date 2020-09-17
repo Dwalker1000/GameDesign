@@ -11,8 +11,12 @@ for line in range(1,10):
     for x in range(line):
         print (line, end = ' ')
     print("")
-
-for line in range(1,10):
+#controls where the pryrimid will start at
+x=0
+#controls where it wil finish
+#will break if number is over 10
+y=10
+for line in range(x,y):
     print()
 #both loops uses line to control flow
     for space in range (9-line):
