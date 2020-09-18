@@ -17,6 +17,7 @@ x=0
 #will break if number is over 10
 y=10
 for line in range(x,y):
+    #mkae sure each number is on a diffrent line
     print()
 #both loops uses line to control flow
     for space in range (9-line):
@@ -30,3 +31,31 @@ for line in range(x,y):
     for number in range(line):
         #prints the second set of numbers
         print (line, end = '')
+print()
+print()
+
+top= 5
+for i in range (0,top + 1):
+    for x in range (top-i, 0,-1):
+        print(x, end = ' ')
+    print()
+
+start = 25
+end = 50
+for i in range(start,end):
+    if i>1:
+        for j in range (2,i):
+            if(i % j==0):
+                break
+        else:
+            print(i,end = ' ')
+print()
+print()
+
+x=0
+y=1
+for number in range(5):
+    print (x, end = ' ')
+    print (y, end = ' ')
+    x=x+y
+    y=x+y
