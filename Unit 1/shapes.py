@@ -1,3 +1,5 @@
+# prints pattern
+#pick a number 1-9
 size = 8
 for line in range (size):
     print()

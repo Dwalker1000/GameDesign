@@ -34,7 +34,7 @@ for line in range(x,y):
 print()
 print()
 
-#second triabgle
+#zero out triangle
 x=0
 #controls where it wil finish
 #will break if number is over 10
@@ -46,8 +46,35 @@ for line in range(x,y):
     for space in range (9-line):
         #prints spaces on first side
         print(" ",end='')
-    for number in range (line, 1, -1):
+    for number in range (line, 0, -1):
+        #prints the first side numbers
+        print (number,end ='')
+    for number in range (line+1):
+        #prints second side
+        print(number,end = '')
+print()
+print()
+
+#one out triangle
+z=1
+x=0
+#controls where it wil finish
+#will break if number is over 10
+y=9
+for line in range(x,y):
+    #mkae sure each number is on a diffrent line
+    print()
+#both loops uses line to control flow
+    for space in range (9-line):
+        #prints spaces on first side
+        print(" ",end='')
+    for number in range (line, 0, -1):
         #prints the first side numbers
         print (number,end ='')
     for number in range (line):
-        print(number,end = '')
+        for tab in range (z):
+            print('*', end = '')
+            print('')
+            z=z-1
+        #prints second side
+        print(number+2,end = '')
