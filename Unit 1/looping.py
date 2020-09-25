@@ -71,10 +71,6 @@ for line in range(x,y):
     for number in range (line, 0, -1):
         #prints the first side numbers
         print (number,end ='')
-    for number in range (line):
-        for tab in range (z):
-            print('*', end = '')
-            print('')
-            z=z-1
+    for number in range (line-1):
         #prints second side
         print(number+2,end = '')
