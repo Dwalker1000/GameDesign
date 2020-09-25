@@ -56,7 +56,6 @@ print()
 print()
 
 #one out triangle
-z=1
 x=0
 #controls where it wil finish
 #will break if number is over 10
