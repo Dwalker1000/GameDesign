@@ -12,13 +12,13 @@
 #
 # print("================")
 # print("2 + 2" + 3 + 4)
-a = 7
-b = 13
-c = 14
-d = 13
-if a%2 == 0:
-    print (b+c)
-elif b%5 == 0:
-    print (c-d)
-else:
-    print(d*c/a)
+# a = 7
+# b = 13
+# c = 14
+# d = 13
+# if a%2 == 0:
+#     print (b+c)
+# elif b%5 == 0:
+#     print (c-d)
+# else:
+#     print(d*c/a)
