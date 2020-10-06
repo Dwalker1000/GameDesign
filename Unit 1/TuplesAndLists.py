@@ -71,11 +71,19 @@ n15= (0,1,2,3,4,5,6,7,8,9)
 print(len(n15))
 print()
 #16 Write a Python program to convert a tuple to a dictionary
-n16 = (0,1,2,3,4,5,6,7,8,9)
-print (dict[n16])
+# n16 = (0,1,2,3,4,5,6,7,8,9)
+# print (dict[n16])
+# skip
 # 17.Write a Python program to unzip a list of tuples into individual lists
+n17 = [(1,2,3), (4,5,6), (7,8,9)]
+print(list(zip(*n17)))
 # 18.Write a Python program to reverse a tuple
+n18 = (0,1,2,3,4,5,6,7,8,9)
+y = list(n18)
+y.reverse()
+print (y)
 # 19.Write a Python program to convert a list of tuples into a dictionary
+# skip
 # 20.Write a Python program to print a tuple with string formatting.Sample tuple : (100, 200, 300)Output :This is a tuple (100, 200, 300)
 # 21.Write a Python program to replace last value of tuples in a list.Sample list: [(10, 20, 40), (40, 50, 60), (70, 80, 90)]Expected Output: [(10, 20, 100), (40, 50, 100), (70, 80, 100)]
 # 22.Write a Python program to remove an empty tuple(s) from a list of tuples.Sample data: [(), (), ('',), ('a', 'b'), ('a', 'b', 'c'), ('d')]Expected output: [('',), ('a', 'b'), ('a', 'b', 'c'), 'd']
