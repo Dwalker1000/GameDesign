@@ -71,21 +71,48 @@ n15= (0,1,2,3,4,5,6,7,8,9)
 print(len(n15))
 print()
 #16 Write a Python program to convert a tuple to a dictionary
-# n16 = (0,1,2,3,4,5,6,7,8,9)
-# print (dict[n16])
-# skip
+# n16 = ('burger', 'pizza', 'pasta')
+# dict = dict(i for i in n16)
+# print(dict)
 # 17.Write a Python program to unzip a list of tuples into individual lists
 n17 = [(1,2,3), (4,5,6), (7,8,9)]
 print(list(zip(*n17)))
+print()
 # 18.Write a Python program to reverse a tuple
 n18 = (0,1,2,3,4,5,6,7,8,9)
 y = list(n18)
 y.reverse()
 print (y)
+print()
 # 19.Write a Python program to convert a list of tuples into a dictionary
-# skip
+n19 = (('India', 27), ('Canada', 25), ('Japan', 5), ('Italy', 0))
+dict1 = dict(i for i in n19)
+print(dict1)
 # 20.Write a Python program to print a tuple with string formatting.Sample tuple : (100, 200, 300)Output :This is a tuple (100, 200, 300)
+n20 = (100,200,300)
+x=[]
+x.append(n20)
+print(x)
+print()
 # 21.Write a Python program to replace last value of tuples in a list.Sample list: [(10, 20, 40), (40, 50, 60), (70, 80, 90)]Expected Output: [(10, 20, 100), (40, 50, 100), (70, 80, 100)]
+n21 = [(10, 20, 40), (40, 50, 60), (70, 80, 90)]
+print([t[:-1] + (100,) for t in n21])
+print()
 # 22.Write a Python program to remove an empty tuple(s) from a list of tuples.Sample data: [(), (), ('',), ('a', 'b'), ('a', 'b', 'c'), ('d')]Expected output: [('',), ('a', 'b'), ('a', 'b', 'c'), 'd']
+n22 = [(), (), ('',), ('a', 'b'), (), ('a', 'b', 'c'), ('d')]
+n22 = [t for t in n22 if t]
+print(n22)
+print()
 # 23.Write a Python program to sort a tuple by its float element.Sample data: [('item1', '12.20'), ('item2', '15.10'), ('item3', '24.5')]Expected Output: [('item3', '24.5'), ('item2', '15.10'), ('item1', '12.20')]
+def Sort(tup):
+    return(sorted(tup, key = lambda x: float(x[1]), reverse = True))
+tup = [('item1', '12.20'), ('item2', '15.10'), ('item3', '24.5')]
+print(Sort(tup))
 # 24.Write a Python program to count the elements in a list until an element is a tuple.
+n24 = [10,20,30,(10,20),40]
+counter=0
+for n in n24:
+    if isinstance(n,tuple):
+        break
+    counter+=1
+print(counter)
