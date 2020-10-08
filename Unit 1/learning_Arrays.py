@@ -124,7 +124,9 @@ print(thisset.intersection(anotherset))
 print()
 
 myDictionary = {'name1':"Daniel", 'age1':15,'school1':"Greenhill"}
+#put name of the thing your calling in ''
 print("The name of the student is",myDictionary['name1'])
 print("This person is ", myDictionary['age1'], "years old")
 print("He goes to ", myDictionary['school1'])
-pint(myDictionary.key())
+print(myDictionary.key())
+print()
