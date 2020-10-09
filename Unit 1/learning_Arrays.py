@@ -128,5 +128,5 @@ myDictionary = {'name1':"Daniel", 'age1':15,'school1':"Greenhill"}
 print("The name of the student is",myDictionary['name1'])
 print("This person is ", myDictionary['age1'], "years old")
 print("He goes to ", myDictionary['school1'])
-print(myDictionary.key())
+# print(myDictionary.key())
 print()
