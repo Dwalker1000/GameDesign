@@ -2,7 +2,7 @@ import random
 import time
 
 name=input("What is your name? ")
-print("Good luck! ", name)
+print("Good luck!", name)
 gameWords=['python', 'java','php','javascript', 'computer', 'geeks', 'keyboard', 'laptop', 'headphone', 'hardware','software', 'cpu', 'drivers', 'usb ports', 'binary', 'graphics', 'pixels', 'intel', 'ryzen', 'battery']
 # use the choice method of my random fucntion to pick a gameWords
 answer=input('do you want to guess a word? ')
