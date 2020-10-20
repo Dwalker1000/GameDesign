@@ -6,7 +6,6 @@ print("Good luck!", name)
 gameWords=['python', 'java','php','javascript', 'computer', 'geeks', 'keyboard', 'laptop', 'headphone', 'hardware','software', 'cpu', 'drivers', 'usb ports', 'binary', 'graphics', 'pixels', 'intel', 'ryzen', 'battery']
 # use the choice method of my random fucntion to pick a gameWords
 answer=input('do you want to guess a word? ')
-print('only guess lower case letters')
 while answer == 'yes':
     word= random.choice(gameWords)
     guesses =''
@@ -25,7 +24,7 @@ while answer == 'yes':
             print("the word is: "+ word)
             break
         guess= input("give me a letter: ")
-        guesses += guess
+        guesses += guess.lower()
         if guess not in word:
             turns-=1
             print("you have ",end = '')
