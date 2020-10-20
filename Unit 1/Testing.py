@@ -22,3 +22,18 @@
 #     print (c-d)
 # else:
 #     print(d*c/a)
+print('_',end = '')
+print('  ', end = '')
+print('O',end = '')
+print('  ', end = '')
+print('_')
+print(' ',end = '')
+print('\\',end = '')
+print('/',end = '')
+print('|',end = '')
+print('\\',end = '')
+print('/')
+print('  ', end = '')
+print('/',end = '')
+print(' \  ')
+1 = x+2
