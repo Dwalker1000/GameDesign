@@ -1,6 +1,5 @@
 import random
 import time
-
 name=input("What is your name? ")
 print("Good luck!", name)
 gameWords=['python', 'java','php','javascript', 'computer', 'geeks', 'keyboard', 'laptop', 'headphone', 'hardware','software', 'cpu', 'drivers', 'usb ports', 'binary', 'graphics', 'pixels', 'intel', 'ryzen', 'battery']
