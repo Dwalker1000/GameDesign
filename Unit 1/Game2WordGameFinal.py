@@ -2,19 +2,19 @@ import random
 import time
 import sys
 import os
-def menue ():
+def menu ():
     print("***************************************************")
-    print("*                  Randome Words                  *")
+    print("*                  Random Words                   *")
     print("*                                                 *")
-    print("*     Instructions: A word will be randomely      *")
+    print("*     Instructions: A word will be randomly       *")
     print("*     selected from a list. That word will be     *")
     print("*  scrambled. your job is to unscramble the word. *")
     print("*          guess the word in order to win.        *")
     print("*                                                 *")
-    print("*  pick a word set                                *")
-    print("*  1. single player                               *")
-    print("*  2. Multi player                                *")
-    print("*  3. exit Game                                   *")
+    print("*  Pick a mode!                                   *")
+    print("*  1. Multiplayer                                 *")
+    print("*  2. Singleplayer                                *")
+    print("*  3. Exit Game                                   *")
     print("***************************************************")
 def start ():
     start = input("(1,2,3) ")
@@ -59,6 +59,38 @@ def WhoWon(player1, player2, p1score, p2score):
         print("It was a draw. I don't know why you stopped playing, but okay.")
 
 # Function for 2p main code
+# Function for choosing a random word
+def words():
+    words = ['python','java','php','javascript','computer','geeks','keyboard','laptop','headphones','hardware','software','msi','nvidia','intel','logitech','amd','playstation','xbox','nintendo','gamecube','ryzen','cpu','unity particle system']
+    RandomWord = random.choice(words)
+    return RandomWord
+
+# Function for scrambling the word
+def scramble(word):
+    ScrambledWord = random.sample(word, len(word))
+    scramble = ''.join(ScrambledWord)
+    return scramble
+
+# Function for telling scores
+def ending(p1n,p2n,p1,p2):
+    print(p1n, 'Your score was:', p1)
+    time.sleep(1)
+    print(p2n, 'Your score was:', p2)
+    time.sleep(1)
+    WhoWon(p1n, p2n, p1, p2)
+    print('Thanks for playing!')
+    time.sleep(2)
+
+# Function for deciding who won
+def WhoWon(player1, player2, p1score, p2score):
+    if p1score > p2score:
+        print("The winner is:", player1)
+    elif p2score > p1score:
+        print("The winner is:", player2)
+    else:
+        print("It was a draw. I don't know why you stopped playing, but okay.")
+
+# Function for main code
 def play():
     # player names
     p1name = input("Player 1, what is your name?\n")
@@ -93,41 +125,41 @@ def play():
                     print("Your Score is:", P2score)
                 else:
                     print("Better luck next time. The correct word is:", picked_word)
-                    PlayAgain = (input("Do you want to play again?\n"))
-                    # if player answers no then program ends, anything else and it restarts
-                    if PlayAgain == "no" or PlayAgain == "No" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
+                PlayAgain = (input("Do you want to play again?\n"))
+                # if player answers no then program ends, anything else and it restarts
+                if PlayAgain == "no" or PlayAgain == "No" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
+                    ending(p1name, p2name, P1score, P2score)
+                    break
+        # for p2 if p1 gets it right
+        else:
+            print(p2name, 'Your turn.')
+            answer = input('Unscramble the word!\n').lower()
+            # checks if answer is correct
+            if answer == picked_word:
+                P2score += 1
+                print("Your Score is:", P2score)
+                turn += 1
+            # what happens if you are incorrect
+            else:
+                print("Better luck next time!")
+                print(p1name, + ', it is your turn.')
+                answer = input('Unscramble the word!\n').lower()
+                # p1's chance to answer the question
+                if answer == picked_word:
+                    P1score += 1
+                    print("Your Score is:", P1score)
+                # if p1 is incorrect as well
+                else:
+                    print("Better luck next time. The correct word is:", picked_word)
+                    PlayAgain = input("Do you want to play again?\n")
+                    if PlayAgain == "No" or PlayAgain == "no" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
                         ending(p1name, p2name, P1score, P2score)
                         break
-                        # for p2 if p1 gets it right
-                    else:
-                        print(p2name, 'Your turn.')
-                        answer = input('Unscramble the word!\n').lower()
-                        # checks if answer is correct
-                        if answer == picked_word:
-                            P2score += 1
-                            print("Your Score is:", P2score)
-                            turn += 1
-                            # what happens if you are incorrect
-                        else:
-                            print("Better luck next time!")
-                            print(p1name, + ', it is your turn.')
-                            answer = input('Unscramble the word!\n').lower()
-                            # p1's chance to answer the question
-                            if answer == picked_word:
-                                P1score += 1
-                                print("Your Score is:", P1score)
-                                # if p1 is incorrect as well
-                            else:
-                                print("Better luck next time. The correct word is:", picked_word)
-                                PlayAgain = input("Do you want to play again?\n")
-                                if PlayAgain == "No" or PlayAgain == "no" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
-                                    ending(p1name, p2name, P1score, P2score)
-                                    break
-                                    # if both get it right
-                                    PlayAgain = (input("Do you want to play again?\n"))
-                                    if PlayAgain == "No" or PlayAgain == "no" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
-                                        ending(p1name, p2name, P1score, P2score)
-                                        break
+            # if both get it right
+            PlayAgain = (input("Do you want to play again?\n"))
+            if PlayAgain == "No" or PlayAgain == "no" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
+                ending(p1name, p2name, P1score, P2score)
+                break
 # Function for 1p main code
 def play1p():
     # player names
@@ -152,7 +184,6 @@ def play1p():
         else:
             print("Better luck next time. The correct word is:", picked_word)
             # If the answer is incorrect
-
             PlayAgain = (input("Do you want to play again?\n"))
                 # if player answers no then program ends, anything else and it restarts
             if PlayAgain == "no" or PlayAgain == "No" or PlayAgain == "NO" or PlayAgain == "n" or PlayAgain == "N":
@@ -160,7 +191,7 @@ def play1p():
                 break
 xyz = 0
 while xyz == 0:
-    menue()
+    menu()
     x = start()
     while x == '1':
         play()
@@ -168,6 +199,6 @@ while xyz == 0:
     while x == '2':
         play1p()
         break
-    while x == '3':
-        print('Bye')
+    if x == '3':
+        print('Thanks for playing! Goodbye.')
         break
