@@ -46,8 +46,6 @@ def ending(p1n,p2n,p1,p2):
 def ending1p(p1n,p1):
     print(p1n, 'your score was:', p1)
     time.sleep(1)
-    print('Thanks for playing!')
-    time.sleep(2)
 
 # Function for deciding who won
 def WhoWon(player1, player2, p1score, p2score):
@@ -142,7 +140,7 @@ def play():
             # what happens if you are incorrect
             else:
                 print("Better luck next time!")
-                print(p1name, + ', it is your turn.')
+                print(p1name + ', it is your turn.')
                 answer = input('Unscramble the word!\n').lower()
                 # p1's chance to answer the question
                 if answer == picked_word:
