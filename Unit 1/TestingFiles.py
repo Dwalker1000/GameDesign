@@ -5,7 +5,7 @@
 # cloes
 # write   "w"    will overwrite
 # append  "a"    add more info to myFile
-# read    "r"
+# read    "r"    allows you to see whats in the file
 # create a fileVariableName = open("fileName.txt", function)
 # to remove a file you need to use the OS module
 import os
