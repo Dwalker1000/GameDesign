@@ -38,3 +38,23 @@
 # print('/',end = '')
 # print(' \  ')
 #print('_',end = ''), print('  ', end = ''), print('O',end = ''), print('  ', end = ''), print('_'), print(' ',end = ''), print('\\',end = ''), print('/',end = ''), print('|',end = ''), print('\\',end = ''), print('/'), print('  ', end = ''), print('/',end = ''), print(' \  ')
+
+
+# gameWords = []
+# my_file = open("words.txt", "r+")
+# allLines= my_file.read()
+# for gameWords in my_file:
+#     gameWords.append(gameWords)
+# print(gameWords)
+# my_file.close()
+
+# f = open('words.txt', 'r')
+# gameWords = []
+# for line in f:
+#     gameWords.append(line.strip())
+# print(gameWords)
+# f.close()
+
+with open("words.txt", "r") as words:
+	gameWords = words.readlines()
+	print(gameWords)
