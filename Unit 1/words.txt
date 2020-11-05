@@ -1,0 +1,20 @@
+python
+java
+php
+javascript
+computer
+geeks
+keyboard
+laptop
+headphone
+hardware
+software
+cpu
+drivers
+usb ports
+binary
+graphics
+pixels
+intel
+ryzen
+battery

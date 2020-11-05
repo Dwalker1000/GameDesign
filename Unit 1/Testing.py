@@ -54,7 +54,6 @@
 #     gameWords.append(line.strip())
 # print(gameWords)
 # f.close()
-
-with open("words.txt", "r") as words:
-	gameWords = words.readlines()
-	print(gameWords)
+x=11920924955078123
+y=368934881462191032320
+print(y/2)

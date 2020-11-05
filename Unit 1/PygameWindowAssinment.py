@@ -3,9 +3,9 @@ pygame.init() #first command
 print()
 length= int(input('how wide do you want the window to be (put in pixels ex:800) '))
 width= int(input('how tall do you want the window to be (put in pixels ex:600) '))
-red = int(input('how much red do you want in the window (will be put in RGB format) '))
-green = int(input('how much green do you want in the window (will be put in RGB format) '))
-blue = int(input('how much blue do you want in the window (will be put in RGB format) '))
+red = int(input('how much red do you want in the window (will be put in RGB format max input=255) '))
+green = int(input('how much green do you want in the window (will be put in RGB format max input=255) '))
+blue = int(input('how much blue do you want in the window (will be put in RGB format max input=255) '))
 screen = pygame.display.set_mode((length,width)) #this is a tuple
 screen.fill((red,green,blue)) #select color of background 0-255
 pygame.display.flip() #update screen quickly also use .update
