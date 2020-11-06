@@ -1,7 +1,7 @@
 import random
 import time
 import os
-import datetime
+from datetime import date
 def menu ():
     print("***********************************************************")
     print("*                         Hang Man                        *")
@@ -34,6 +34,7 @@ def play ():
 
     # use the choice method of my random fucntion to pick a gameWords
     answer=input('do you want to guess a word? ')
+    score = 0
     while answer == 'yes':
         f = open('words.txt', 'r')
         gameWords = []
@@ -43,7 +44,6 @@ def play ():
         word= random.choice(gameWords)
         guesses =''
         final = ''
-        score = 0
         turns=10
         while turns>0:
             for char in word:
@@ -60,6 +60,19 @@ def play ():
                 print("you have a score of ",end = '')
                 print(score)
                 answer=input('do you want to guess another word ')
+                if answer == 'no':
+                    path = "highscores.txt"
+                    ifExist = os.path.exists(path)
+                    if ifExist == True:
+                        text_file = open("highscores.txt", "a")
+                        score2 = str(score)
+                        today = date.today()
+                        text_file.write("\n" + name +"\t"+ score2 + "\t" + str(today.day())+"-"+str(today.month())+"-"+ str(today.year())+ "\n")
+                    elif ifExist == False:
+                        text_file = open("highscores.txt", "w")
+                        score2 = str(score)
+                        today = date.today()
+                        text_file.write("\n" + name +"\t"+ score2 + "\t" + (today.day()+"-"+today.month()+"-"+ today.year()+ "\n")
                 break
             guess= input("give me a letter: ")
             guesses += guess.lower()
@@ -224,18 +237,21 @@ def play ():
                 print("you ended with a score of ", end ='')
                 print(score)
                 answer=input('do you want to play again ')
+                path = "highscores.txt"
+                ifExist = os.path.exists(path)
+                if ifExist == True:
+                    text_file = open("highscores.txt", "a")
+                    score2 = str(score)
+                    today = date.today()
+                    text_file.write("\n" + name +"\t"+ score2 + "\t" + today.day()+"-"+today.month()+"-"+ today.year()+ "\n")
+                    text_file.close()
+                elif ifExist == False:
+                    text_file = open("highscores.txt", "w")
+                    score2 = str(score)
+                    today = date.today()
+                    text_file.write("\n" + name +"\t"+ score2 + "\t" + today.day()+"-"+today.month()+"-"+ today.year()+ "\n")
+                    text_file.close()
                 break
-            path = "highscores.txt"
-            ifExist = os.path.exists(path)
-            if ifExist == "True":
-                text_file = open("highscores.txt", "a")
-                text_file.write("\n" + name +"\t"+ score + "\t" + date.today()+ "\n")
-                text_file.close()
-            elif ifExist == "False":
-                text_file = open("highscores.txt", "w")
-                text_file.write("\n" + name +"\t"+ score + "\t" + date.today()+ "\n")
-                text_file.close()
-
 def score():
     text_file = open("highscores.txt", "r")
     whole_thing = text_file.read()
