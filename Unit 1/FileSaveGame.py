@@ -1,7 +1,7 @@
 import random
 import time
 import os
-from datetime import date
+import datetime
 def menu ():
     print("***********************************************************")
     print("*                         Hang Man                        *")
@@ -61,19 +61,13 @@ def play ():
                 print(score)
                 answer=input('do you want to guess another word ')
                 if answer == 'no':
-                    path = "highscores.txt"
-                    ifExist = os.path.exists(path)
-                    if ifExist == True:
-                        text_file = open("highscores.txt", "a")
-                        score2 = str(score)
-                        today = date.today()
-                        text_file.write("\n" + name +"\t"+ score2 + "\t" + str(today.day())+"-"+str(today.month())+"-"+ str(today.year())+ "\n")
-                    elif ifExist == False:
-                        text_file = open("highscores.txt", "w")
-                        score2 = str(score)
-                        today = date.today()
-                        text_file.write("\n" + name +"\t"+ score2 + "\t" + (today.day()+"-"+today.month()+"-"+ today.year()+ "\n")
-                break
+                    text_file = open("highscores.txt", "a")
+                    score2 = str(score)
+                    today = datetime.datetime.today()
+                    text_file.write("\n" + name +"\t"+ score2 + "\t" + str(today))
+                    text_file.close()
+                    answer = "no"
+                    break
             guess= input("give me a letter: ")
             guesses += guess.lower()
             if guess not in word:
@@ -267,7 +261,6 @@ while xyz == 0:
         play()
     if x == '2':
         score()
-        break
     if x == '3':
         print('Thanks for playing! Goodbye.')
         xyz = 1
