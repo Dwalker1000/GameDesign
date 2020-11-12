@@ -54,11 +54,11 @@
 #     gameWords.append(line.strip())
 # print(gameWords)
 # f.close()
+
 x=11920924955078123
-y=368934881462191032320
-print(len(x))
-print(len(y))
 x=59604624775390615
+x=19868208258463535
+
+y=368934881462191032320
 y=1844674407310955161600
-print(len(x))
-print(len(y))
+y=y/3
