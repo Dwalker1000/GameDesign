@@ -1,9 +1,11 @@
 import pygame
 import os
+import pathlib
 pygame.init()
 #background pick should be size of Screen
-tempSprite = pygame.image.load('dht11.jpg')
-background = pygame.image.load('Background.png')
+# filePath = pathlib.Path(Users\walkerd24\github\GameDesign).parent
+# tempSprite = pygame.image.load(filePath/'dht11.jpg')
+# background = pygame.image.load('Background.png')
 WIDTH = 1000
 HEIGHT = 800
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -19,10 +21,10 @@ h = 62
 jump = False
 high = 10
 def redrawWindow():
-    screen.blit(tempSprite, (x,y))
-    screen.blit(backdrop, (0,0))
-    # screen.fill((black))
-    # pygame.draw.rect(screen,(10,123,10),(x,y,w,h))
+    # screen.blit(tempSprite, (x,y))
+    # screen.blit(backdrop, (0,0))
+    screen.fill((black))
+    pygame.draw.rect(screen,(10,123,10),(x,y,w,h))
     pygame.display.update()
 
 while running:
