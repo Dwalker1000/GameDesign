@@ -1,11 +1,9 @@
 import pygame
-import os
-import pathlib
 pygame.init()
 #background pick should be size of Screen
-# filePath = pathlib.Path(Users\walkerd24\github\GameDesign).parent
-# tempSprite = pygame.image.load(filePath/'dht11.jpg')
-# background = pygame.image.load('Background.png')
+# filePath = pathlib.Path(Users\walkerd24\github\GameDesign\Unit 1\).parent
+background = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Unit 1\\BackGround4.jpg")
+tempSprite = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Unit 1\\pika.png")
 WIDTH = 1000
 HEIGHT = 800
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -15,16 +13,14 @@ black = [255,255,255]
 # control vars
 running = True
 x = 52
-y = 572
+y = 456
 w = 64
 h = 62
 jump = False
 high = 10
 def redrawWindow():
-    # screen.blit(tempSprite, (x,y))
-    # screen.blit(backdrop, (0,0))
-    screen.fill((black))
-    pygame.draw.rect(screen,(10,123,10),(x,y,w,h))
+    screen.blit(background, (0,0))
+    screen.blit(tempSprite, (x,y))
     pygame.display.update()
 
 while running:
@@ -41,10 +37,6 @@ while running:
     if KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x
         x += speed
     if not(jump): # moving y without jump
-        if KeyPress[pygame.K_UP] and y > speed: #Subtract from y
-            y -= speed
-        if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y
-            y += speed
         if KeyPress[pygame.K_SPACE]:
             jump = True
     else:
