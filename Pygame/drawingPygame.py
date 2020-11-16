@@ -4,7 +4,7 @@ pygame.init()
 background = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\dht11.jpg")]
 walkLeft = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\jumping motion.PNG"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\BackGround1.jpg")]
-character = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\Background.png")]
+character = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")]
 WIDTH = 1000 # screen width
 HEIGHT = 800 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -24,7 +24,7 @@ left = False
 right = False
 #control list
 walkCount = 0
-SpriteFrames = 15 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
+SpriteFrames = 6 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
 
 def redrawWindow():
     global walkCount
