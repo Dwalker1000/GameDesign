@@ -1,10 +1,10 @@
 import pygame
 pygame.init()
 #background pick should be size of Screen
-background = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\dht11.jpg")]
 walkLeft = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\jumping motion.PNG"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\BackGround1.jpg")]
-character = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")]
+background = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")]
+# character = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")]
 WIDTH = 1000 # screen width
 HEIGHT = 800 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -42,10 +42,9 @@ def redrawWindow():
         walkCount +=1
 
     else:
-        screen.blit(character, (x,y))
+        screen.blit(rectangle(123,35,76)(x,y))
         walkCount = 0
 
-    screen.blit(tempSprite, (x,y))
     pygame.display.update()
 
 while running:
