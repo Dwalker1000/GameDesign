@@ -1,92 +1,92 @@
 import pygame
 pygame.init()
-WIDTH = 500
-HEIGHT = 500
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
-pygame.display.set_caption("First Game")
-
+#background pick should be size of Screen
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\dht11.jpg")]
 walkLeft = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\jumping motion.PNG"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\BackGround1.jpg")]
-bg = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")
-character = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")
+background = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")]
+# character = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")]
+WIDTH = 1000 # screen width
+HEIGHT = 800 # screen height
+screen = pygame.display.set_mode((WIDTH,HEIGHT))
 
-x = 50
-y = 400
-width = 40
-height = 60
-speed = 5
-#to control the frames
+# control vars
+running = True
+x = 52 #where character starts
+y = 456 #where character starts
+w = 64 #width of character X
+h = 62 #height of character Y
+jump = False
+high = 10 #height of jump
+# to control the frames
 clock = pygame.time.Clock()
-
-Jump = False
-high = 10
 #control left and right move
 left = False
 right = False
-#control my list
+#control list
 walkCount = 0
+SpriteFrames = 6 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
 
-def redrawGameWindow():
-    global walkCount #it makes sure is using the global walkCount that created earlier
+def redrawWindow():
+    global walkCount
+    screen.blit(background, (0,0))
 
-    screen.blit(bg, (0,0))
-    if walkCount + 1 >= 6:
+    if walkCount + 1 >= SpriteFrames:
         walkCount = 0
+
     if left:
-        screen.blit(walkLeft[walkCount//3], (x,y))
+        screen.blit(walkLeft[walkCount//3],(x,y))
         walkCount += 1
+
     elif right:
         screen.blit(walkRight[walkCount//3], (x,y))
-        walkCount += 1
+        walkCount +=1
+
     else:
-        screen.blit(character, (x, y))
+        screen.blit(rectangle(123,35,76)(x,y))
         walkCount = 0
+
     pygame.display.update()
 
-run = True
-
-while run:
-    clock.tick(27)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
-    keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_LEFT] and x > speed:
+while running:
+    clock.tick(SpriteFrames)
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT: #quit sequence
+            running = False
+    pygame.time.delay(100)
+    #moving our rectangle
+    KeyPress=pygame.key.get_pressed()
+    #check what key was get_pressed
+    speed = 10
+    if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
         x -= speed
         left = True
         right = False
-
-    elif keys[pygame.K_RIGHT] and x < WIDTH - speed - width:
+    elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
         x += speed
         left = False
         right = True
-
+    #reset code when not moving
     else:
         left = False
         right = False
         walkCount = 0
-
-    if not(Jump):
-        if keys[pygame.K_UP] and y > speed:     # I need to substract to the y
+    #jump code
+    if not(jump): # moving y without jump
+        if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
             y -= speed
-        if keys[pygame.K_DOWN] and y < HEIGHT - height - speed:    # I need to add to the y
+        if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
             y += speed
-        if keys[pygame.K_SPACE]:
-            Jump = True
+        if KeyPress[pygame.K_SPACE]:
+            jump = True
             left = False
             right = False
             walkCount = 0
     else:
-        if high >= -10:
-            y -= (high * abs(high)) * 0.5
+        if high >=-10:
+            y -= (high*abs(high)) /2
             high -= 1
         else:
             high = 10
-            Jump = False
-
-    redrawGameWindow()
-
+            jump = False
+    redrawWindow()
 pygame.quit()

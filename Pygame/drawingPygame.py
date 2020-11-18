@@ -45,25 +45,6 @@ def redrawWindow():
         screen.blit(character, (x,y))
         walkCount = 0
 
-
-    if keyPressed("right"):
-        changeSpriteImage(testSprite)    # 0*8 because right animations are the 0th set in the sprite sheet
-        scrollBackground(-5,0)                      # The player is moving right, so we scroll the background left
-
-    elif keyPressed("down"):
-        changeSpriteImage(testSprite)    # down facing animations are the 1st set
-        scrollBackground(0, -5)
-
-    elif keyPressed("left"):
-        changeSpriteImage(testSprite)    # and so on
-        scrollBackground(5,0)
-
-    elif keyPressed("up"):
-        changeSpriteImage(testSprite)
-        scrollBackground(0,5)
-
-    else:
-        changeSpriteImage(testSprite, 1 + 5)  # the static facing front look
     pygame.display.update()
 
 while running:
@@ -80,10 +61,14 @@ while running:
         x -= speed
         left = True
         right = False
+        changeSpriteImage(testSprite)
+        scrollBackground(5,0)
     elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
         x += speed
         left = False
         right = True
+        changeSpriteImage(testSprite)
+        scrollBackground(-5,0)
     #reset code when not moving
     else:
         left = False
@@ -93,13 +78,19 @@ while running:
     if not(jump): # moving y without jump
         if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
             y -= speed
+            changeSpriteImage(testSprite)
+            scrollBackground(0,5)
         if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
             y += speed
+            changeSpriteImage(testSprite)
+            scrollBackground(0, -5)
         if KeyPress[pygame.K_SPACE]:
             jump = True
             left = False
             right = False
             walkCount = 0
+        else:
+            changeSpriteImage(testSprite, 1 + 5)  
     else:
         if high >=-10:
             y -= (high*abs(high)) /2
