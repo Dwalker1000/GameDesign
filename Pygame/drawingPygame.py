@@ -1,4 +1,5 @@
 import pygame
+from pygame_functions import *
 pygame.init()
 #background pick should be size of Screen
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\dht11.jpg")]
@@ -25,7 +26,6 @@ right = False
 #control list
 walkCount = 0
 SpriteFrames = 6 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
-
 def redrawWindow():
     global walkCount
     screen.blit(background, (0,0))
@@ -40,10 +40,30 @@ def redrawWindow():
     elif right:
         screen.blit(walkRight[walkCount//3], (x,y))
         walkCount +=1
-        
+
     else:
         screen.blit(character, (x,y))
         walkCount = 0
+
+
+    if keyPressed("right"):
+        changeSpriteImage(testSprite)    # 0*8 because right animations are the 0th set in the sprite sheet
+        scrollBackground(-5,0)                      # The player is moving right, so we scroll the background left
+
+    elif keyPressed("down"):
+        changeSpriteImage(testSprite)    # down facing animations are the 1st set
+        scrollBackground(0, -5)
+
+    elif keyPressed("left"):
+        changeSpriteImage(testSprite)    # and so on
+        scrollBackground(5,0)
+
+    elif keyPressed("up"):
+        changeSpriteImage(testSprite)
+        scrollBackground(0,5)
+
+    else:
+        changeSpriteImage(testSprite, 1 + 5)  # the static facing front look
     pygame.display.update()
 
 while running:
