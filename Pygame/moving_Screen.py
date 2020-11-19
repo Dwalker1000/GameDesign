@@ -11,24 +11,50 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 
 # control vars
 running = True
-x = 52 #where character starts
-y = 456 #where character starts
+x = 52 #where character starts disance from left wall
+y = 456 #where character starts distance from top
 w = 64 #width of character X
 h = 62 #height of character Y
+backx = 0 #background strating x pos
+backy = 0 #background starting y pos
+#jump code/walk
 jump = False
 high = 10 #height of jump
+speed = 25
 # to control the frames
 clock = pygame.time.Clock()
 #control left and right move
 left = False
 right = False
+true = False
 #control list
 walkCount = 0
 SpriteFrames = 6 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
 
 def redrawWindow():
+    KeyPress=pygame.key.get_pressed()
     global walkCount
-    screen.blit(background, (0,0))
+    global backx
+    global backy
+    global x
+    global speed
+    global true
+    space = 0
+    if x < 500 or x > 500:
+        screen.blit(background, (backx,backy))
+    if x >= 500 and x < 2500 and KeyPress[pygame.K_RIGHT] and space <= 2000 and backx != -2000:
+        true = True
+        space += speed
+        backx -= speed
+        x -=speed
+        screen.blit(background, (backx,backy))
+    if x >= 0 and x < 2500 and KeyPress[pygame.K_LEFT] and space <= 2000 and true == True and backx != 0:
+        space -= speed
+        backx += speed
+        x +=speed
+        screen.blit(background, (backx,backy))
+    if x >= 2500 and space == 2000:
+        screen.blit(background, (backx,backy))
 
     if walkCount + 1 >= SpriteFrames:
         walkCount = 0
@@ -56,7 +82,6 @@ while running:
     #moving our rectangle
     KeyPress=pygame.key.get_pressed()
     #check what key was get_pressed
-    speed = 10
     if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
         x -= speed
         left = True

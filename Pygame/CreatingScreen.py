@@ -1,7 +1,7 @@
 import pygame
 #drawing with python
 pygame.init() #first command
-screen = pygame.display.set_mode((1280,800)) #this is a tuple
+screen = pygame.display.set_mode((1000,750)) #this is a tuple
 screen.fill((0,0,0)) #select color of background 0-255
 pygame.display.flip() #update screen quickly also use .update
 pygame.display.set_caption("Testing pygame") #title for the window
