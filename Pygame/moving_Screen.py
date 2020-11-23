@@ -6,7 +6,8 @@ walkLeft = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\
 jumpRight = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\JumpRight.png")
 jumpLeft = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\JumpLeft.png")
 background = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\Elongated Background.jpg")
-character = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\Standing.png")
+characterRight = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\StandingRight.png")
+characterLeft = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\StandingLeft.png")
 WIDTH = 1000 # screen width
 HEIGHT = 750 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -16,7 +17,7 @@ running = True
 x = 52 #where character starts disance from left wall
 y = 456 #where character starts distance from top
 w = 64 #width of character X
-h = 62 #height of character Y
+h = 64 #height of character Y
 backx = 0 #background strating x pos
 backy = 0 #background starting y pos
 #jump code/walk
@@ -31,7 +32,8 @@ right = False
 true = False
 #control list
 walkCount = 0
-SpriteFrames = 24 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
+SpriteFrames = 24 # number of pictures for each movement times 3
+Left = False
 
 def redrawWindow():
     KeyPress=pygame.key.get_pressed()
@@ -44,6 +46,7 @@ def redrawWindow():
     global jump
     global jumpRight
     global jumpLeft
+    global Left
     #screen scrolling
     space = 0
     if x < 500 or x > 500:
@@ -66,20 +69,26 @@ def redrawWindow():
     if walkCount + 1 >= SpriteFrames:
         walkCount = 0
     if left:
+        Left = True
         if jump == True:
             screen.blit((jumpLeft), (x,y))
         else:
             screen.blit(walkLeft[walkCount//3],(x,y))
             walkCount += 1
     elif right:
+        Left = False
         if jump == True:
             screen.blit((jumpRight), (x,y))
         else:
             screen.blit(walkRight[walkCount//3], (x,y))
             walkCount +=1
     else:
-        screen.blit((character),(x,y))
-        walkCount = 0
+        if Left == True:
+            screen.blit((characterLeft),(x,y))
+            walkCount = 0
+        else:
+            screen.blit((characterRight),(x,y))
+            walkCount = 0
 
     #screen update
     pygame.display.update()
