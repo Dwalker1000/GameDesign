@@ -20,20 +20,24 @@ w = 64 #width of character X
 h = 64 #height of character Y
 backx = 0 #background strating x pos
 backy = 0 #background starting y pos
+
 #jump code/walk
 jump = False
 high = 10 #height of jump
 speed = 25 #needs to be able to be devided by 500 cleanly or will mess up on far side
+
 # to control the frames
 clock = pygame.time.Clock()
+
 #control left and right move
 left = False
 right = False
 true = False
+
 #control list
 walkCount = 0
 SpriteFrames = 24 # number of pictures for each movement times 3
-Left = False
+Left = False #sets default side facing the right
 
 def redrawWindow():
     KeyPress=pygame.key.get_pressed()
