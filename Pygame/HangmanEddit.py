@@ -4,9 +4,10 @@
 # create menu
 #   options: 3 lvels (easy, medium, hard)
 #create file for records
-import pygame
+import pygame, sys
 import math
 import random
+from pygame.locals import *
 
 # setup display
 pygame.init()
@@ -89,8 +90,8 @@ def display_message(message):
 def menu():
     global words
     global word
-    global m_x
-    global m_y
+    global mx
+    global my
     global run
     x = True
     while x == True:
@@ -124,10 +125,10 @@ def menu():
                 run = False
                 break
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.type == 1:
+            if event.button == 1:
                 click = True
         if button_1.collidepoint((mx,my)):
-
+            if click:
                 words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
                 word = random.choice(words)
                 win.fill(BLACK)
@@ -136,7 +137,7 @@ def menu():
                 main(word)
                 pass
         if button_2.collidepoint((mx,my)):
-
+            if click:
                 words = ["JAVASCRIPT", "MOUNT", "COLLIDE", "SCANNER"]
                 word = random.choice(words)
                 win.fill(BLACK)
@@ -145,7 +146,7 @@ def menu():
                 main(word)
                 pass
         if button_3.collidepoint((mx,my)):
-            
+            if click:
                 words = ["COLLIDEPOINT", "JAVAUTIL", "GAMMING", "PISTOLWIP"]
                 word = random.choice(words)
                 win.fill(BLACK)
