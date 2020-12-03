@@ -121,16 +121,16 @@ def menu():
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                run = False
                 break
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == 1:
+                click = True
         if button_1.collidepoint((mx,my)):
             if click:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        run = False
-                        break
                 words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
                 word = random.choice(words)
-                main(word)
+                main()
                 pass
         if button_2.collidepoint((mx,my)):
             if click:
@@ -140,14 +140,12 @@ def menu():
                 pass
         if button_3.collidepoint((mx,my)):
             if click:
-                words = ["COLLIDEPOINT", "", "PYTHON", "PYGAME"]
+                words = ["COLLIDEPOINT", "JAVAUTIL", "GAMMING", "PISTOLWIP"]
                 word = random.choice(words)
                 main(word)
                 pass
         click = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.type == 1:
-                click = True
+
                 #     words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
                 #     word = random.choice(words)
 
