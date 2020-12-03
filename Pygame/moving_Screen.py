@@ -103,7 +103,7 @@ while running:
         if i.type == pygame.QUIT: #quit sequence
             running = False
     pygame.time.delay(100)
-    #moving our rectangle
+    # movement
     KeyPress=pygame.key.get_pressed()
     #check what key was get_pressed
     if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
