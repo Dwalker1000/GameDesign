@@ -92,8 +92,8 @@ def menu():
     global m_x
     global m_y
     global run
-
-    while True:
+    x = True
+    while x == True:
         button_1 = pygame.Rect(65,295,200,50)
         button_2 = pygame.Rect(300,295,200,50)
         button_3 = pygame.Rect(545,295,200,50)
@@ -127,27 +127,33 @@ def menu():
             if event.type == 1:
                 click = True
         if button_1.collidepoint((mx,my)):
-            if click:
+
                 words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
                 word = random.choice(words)
-                main()
+                win.fill(BLACK)
+                pygame.display.update()
+                x = False
+                main(word)
                 pass
         if button_2.collidepoint((mx,my)):
-            if click:
+
                 words = ["JAVASCRIPT", "MOUNT", "COLLIDE", "SCANNER"]
                 word = random.choice(words)
+                win.fill(BLACK)
+                pygame.display.update()
+                x = False
                 main(word)
                 pass
         if button_3.collidepoint((mx,my)):
-            if click:
+            
                 words = ["COLLIDEPOINT", "JAVAUTIL", "GAMMING", "PISTOLWIP"]
                 word = random.choice(words)
+                win.fill(BLACK)
+                pygame.display.update()
+                x = False
                 main(word)
                 pass
         click = False
-
-                #     words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
-                #     word = random.choice(words)
 
 def main(word):
 
