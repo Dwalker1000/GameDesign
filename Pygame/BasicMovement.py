@@ -1,13 +1,9 @@
 import pygame
 pygame.init()
 #background pick should be size of Screen
-walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight1.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight2.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight3.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight4.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight5.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight6.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight7.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight8.png")]
-walkLeft = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft1.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft2.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft3.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft4.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft5.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft6.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft7.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkLeft8.png")]
-jumpRight = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\JumpRight.png")
-jumpLeft = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\JumpLeft.png")
-characterRight = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\StandingRight.png")
-characterLeft = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\StandingLeft.png")
-WIDTH = 800 # screen width
+background = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\Backgrounds\\BackGround4.jpg")
+tempSprite = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Pygame\\sprites\\pika.png")
+WIDTH = 1000 # screen width
 HEIGHT = 800 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 
@@ -26,11 +22,11 @@ left = False
 right = False
 #control list
 walkCount = 0
-SpriteFrames = 24 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
+SpriteFrames = 27 #each picture is about 3 frames and we have X pictures 3*x = number (27 in this case 3*9)
 
 def redrawWindow():
     global walkCount
-    screen.fill(0,0,0)
+    screen.blit(background, (0,0))
 
     if walkCount + 1 >= SpriteFrames:
         walkCount = 0
@@ -49,47 +45,48 @@ def redrawWindow():
 
     screen.blit(tempSprite, (x,y))
     pygame.display.update()
-
-while running:
-    clock.tick(SpriteFrames)
-    for i in pygame.event.get():
-        if i.type == pygame.QUIT: #quit sequence
-            running = False
-    pygame.time.delay(100)
-    #moving our rectangle
-    KeyPress=pygame.key.get_pressed()
-    #check what key was get_pressed
-    speed = 10
-    if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
-        x -= speed
-        left = True
-        right = False
-    elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
-        x += speed
-        left = False
-        right = True
-    #reset code when not moving
-    else:
-        left = False
-        right = False
-        walkCount = 0
-    #jump code
-    if not(jump): # moving y without jump
-        if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
-            y -= speed
-        if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
-            y += speed
-        if KeyPress[pygame.K_SPACE]:
-            jump = True
+def main():
+    while running:
+        clock.tick(SpriteFrames)
+        for i in pygame.event.get():
+            if i.type == pygame.QUIT: #quit sequence
+                running = False
+        pygame.time.delay(100)
+        #moving our rectangle
+        KeyPress=pygame.key.get_pressed()
+        #check what key was get_pressed
+        speed = 10
+        if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
+            x -= speed
+            left = True
+            right = False
+        elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
+            x += speed
+            left = False
+            right = True
+        #reset code when not moving
+        else:
             left = False
             right = False
             walkCount = 0
-    else:
-        if high >=-10:
-            y -= (high*abs(high)) /2
-            high -= 1
+        #jump code
+        if not(jump): # moving y without jump
+            if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
+                y -= speed
+            if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
+                y += speed
+            if KeyPress[pygame.K_SPACE]:
+                jump = True
+                left = False
+                right = False
+                walkCount = 0
         else:
-            high = 10
-            jump = False
-    redrawWindow()
+            if high >=-10:
+                y -= (high*abs(high)) /2
+                high -= 1
+            else:
+                high = 10
+                jump = False
+        redrawWindow()
+main()
 pygame.quit()
