@@ -121,10 +121,6 @@ while running:
         walkCount = 0
     #jump code
     if not(jump): # moving y without jump
-        if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
-            y -= speed
-        if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
-            y += speed
         if KeyPress[pygame.K_SPACE]:
             jump = True
             left = False
