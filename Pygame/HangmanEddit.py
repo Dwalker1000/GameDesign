@@ -128,7 +128,7 @@ def menu():
             if event.button == 1:
                 click = True
         if button_1.collidepoint((mx,my)):
-            if click:
+            # if click:
                 words = ["IDE", "REPLIT", "PYTHON", "PYGAME"]
                 word = random.choice(words)
                 win.fill(BLACK)
