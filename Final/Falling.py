@@ -1,6 +1,4 @@
-import pygame
-import timeit
-import random
+import pygame, random, sys
 
 # the game will have meteors falling from the sky
 # if player gets hit they louse
@@ -17,16 +15,23 @@ characterLeft = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Fin
 meteor = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\fireball.jpg")
 Brick = pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\Brick.jpg")
 #screen vars
-WIDTH = 800 # screen width
+WIDTH = 1000 # screen width
 HEIGHT = 800 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 
-# control vars
+# control/default vars for player
 running = True
+click = False
+alive = True
 x = 368 #where character starts disance from left wall
 y = 688 #where character starts distance from top
 w = 64 #width of character X
 h = 64 #height of character Y
+
+#meteor code
+meteor_Size = 64
+meteor_x = [random.randint(0,WIDTH-meteor_Size), 0]
+meteor_y = 0
 
 #jump code/walk
 jump = False
@@ -52,13 +57,10 @@ SpriteFrames = 24 # number of pictures for each movement times 3
 Left = False #sets default side facing the right
 
 #dificulty
-easy = False
-normal = False
-hard = False
-imposiable = False
+dificlty = None
 
-def redrawWindow():
-    i = 0
+#window
+def redrawWindow(dificlty, alive):
     KeyPress=pygame.key.get_pressed()
     global walkCount
     global x
@@ -70,7 +72,7 @@ def redrawWindow():
     global Left
     global meteor
 
-    #sprite movement code
+    #sprite movement rendering code
     screen.blit(background, (0,0))
     if walkCount + 1 >= SpriteFrames:
         walkCount = 0
@@ -95,27 +97,8 @@ def redrawWindow():
         else:
             screen.blit((characterRight),(x,y))
             walkCount = 0
-    while running and easy == True:
-        pygame.time.delay(7.5)
-        screen.blit((meteor),(x,y))
-
-    while running and normal == True:
-        pygame.time.delay(5)
-        screen.blit((meteor),(x,y))
-
-    while running and hard == True:
-        pygame.time.delay(2.5)
-        screen.blit((meteor),(x,y))
-
-    while running and imposiable == True:
-        pygame.time.delay(1)
-        screen.blit((meteor),(x,y))
-    for i in range(0,16):
-        screen.blit((Brick),(i*50, 750))
-        i += 1
     #screen update
     pygame.display.update()
-
 
 #message code
 def display_message(message):
@@ -133,78 +116,92 @@ def menu():
     global mx
     global my
     global run
+    global click
+
     x = True
     while x == True:
-        button_1 = pygame.Rect(65,295,200,50)
-        button_2 = pygame.Rect(300,295,200,50)
-        button_3 = pygame.Rect(545,295,200,50)
-        button_4 = pygame.Rect(125,495,275,50)
-        button_5 = pygame.Rect(435,495,200,50)
-        
+        #mouse position and white fill
         mx, my = pygame.mouse.get_pos()
         screen.fill((255,255,255))
+
+        #buttons
+        button_1 = pygame.Rect(105,295,200,50)
+        button_2 = pygame.Rect(395,295,200,50)
+        button_3 = pygame.Rect(695,295,200,50)
+        button_4 = pygame.Rect(195,495,275,50)
+        button_5 = pygame.Rect(565,495,200,50)
         pygame.draw.rect(screen, (255,0 ,0), button_1)
         pygame.draw.rect(screen, (255,0 ,0), button_2)
         pygame.draw.rect(screen, (255,0 ,0), button_3)
         pygame.draw.rect(screen, (255,0 ,0), button_4)
         pygame.draw.rect(screen, (255,0 ,0), button_5)
+
+        #menu text
         text1 = TITLE_FONT.render("The Sky Is Falling", 1, (0,0,0))
-        screen.blit(text1, (int(WIDTH/2 - (text1.get_width()/2)), 20))
         text2 = WORD_FONT.render("instructions", 1, (0,0,0))
-        screen.blit(text2, (int(WIDTH/2 - text2.get_width()/2), 90))
         text2_0 = WORD_FONT.render("meteors will be falling from the sky", 1, (0,0,0))
-        screen.blit(text2_0, (int(WIDTH/2 - text2_0.get_width()/2), 140))
         text2_1 = WORD_FONT.render("if you get hit you louse", 1, (0,0,0))
-        screen.blit(text2_1, (int(WIDTH/2 - text2_1.get_width()/2), 190))
-        text2_2 = WORD_FONT.render("use the left and right arow", 1, (0,0,0))
-        screen.blit(text2_2, (int(WIDTH/2 - text2_2.get_width()/2), 240))
+        text2_2 = WORD_FONT.render("use the left and right arow to move", 1, (0,0,0))
         text3 = WORD_FONT.render("easy", 1, (0,0,0))
-        screen.blit (text3, (int(WIDTH/5 - text3.get_width()/2), 300))
         text4 = WORD_FONT.render("medium", 1, (0,0,0))
-        screen.blit(text4, (int(WIDTH/2 - text4.get_width()/2), 300))
         text5 = WORD_FONT.render("hard", 1, (0,0,0))
-        screen.blit(text5, (int(WIDTH/1.25 - text5.get_width()/2), 300))
-        text6 = WORD_FONT.render("imposiable", 1, (0,0,0))
-        screen.blit(text6, (int(WIDTH/3 - text6.get_width()/2), 500))
+        text6 = WORD_FONT.render("scoreboard", 1, (0,0,0))
         text7 = WORD_FONT.render("quit", 1, (0,0,0))
+        #text display
+        screen.blit(text1, (int(WIDTH/2 - (text1.get_width()/2)), 20))
+        screen.blit(text2, (int(WIDTH/2 - text2.get_width()/2), 90))
+        screen.blit(text2_0, (int(WIDTH/2 - text2_0.get_width()/2), 140))
+        screen.blit(text2_1, (int(WIDTH/2 - text2_1.get_width()/2), 190))
+        screen.blit(text2_2, (int(WIDTH/2 - text2_2.get_width()/2), 240))
+        screen.blit (text3, (int(WIDTH/5 - text3.get_width()/2), 300))
+        screen.blit(text4, (int(WIDTH/2 - text4.get_width()/2), 300))
+        screen.blit(text5, (int(WIDTH/1.25 - text5.get_width()/2), 300))
+        screen.blit(text6, (int(WIDTH/3 - text6.get_width()/2), 500))
         screen.blit(text7, (int(WIDTH/1.5 - text7.get_width()/2), 500))
         pygame.display.update()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                sys.exit()
                 break
+        #if mouse left clicks
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 click = True
+        #button colision and action
+        #easy
         if button_1.collidepoint((mx,my)):
             if click:
                 screen.fill((0,0,0))
+                dificlty = "easy"
                 pygame.display.update()
                 x = False
-                main()
+                main(dificlty)
                 pass
+        #normal
         if button_2.collidepoint((mx,my)):
             if click:
                 screen.fill((0,0,0))
+                dificlty = "normal"
                 pygame.display.update()
                 x = False
-                main()
+                main(dificlty)
                 pass
+        #Hard
         if button_3.collidepoint((mx,my)):
             if click:
                 screen.fill((0,0,0))
+                dificlty = "hard"
                 pygame.display.update()
                 x = False
-                main()
+                maindificlty
                 pass
+        #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                screen.fill((0,0,0))
-                pygame.display.update()
-                x = False
-                main()
+                running = False
                 pass
+        #quit
         if button_5.collidepoint((mx,my)):
             if click:
                 running = False
@@ -212,7 +209,7 @@ def menu():
         click = False
 
 #main
-def main():
+def main(dificlty):
     global running
     global jump
     global x
@@ -222,12 +219,12 @@ def main():
     global Clock
     global right
     global left
-
-    while running:
+    while running and alive:
         clock.tick(SpriteFrames)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                sys.exit()
                 break
         pygame.time.delay(100)
         # movement
@@ -260,8 +257,9 @@ def main():
             else:
                 high = 10
                 jump = False
-        redrawWindow()
-        x = time
-        print(x)
+        redrawWindow(dificlty, alive)
+        meteor_1 = pygame.Rect(meteor_x,meteor_y,meteor_Size,meteor_Size)
+        pygame.draw.rect(screen, (0,0,255), (meteor_1))
+        pygame.display.update()
 menu()
 pygame.quit()

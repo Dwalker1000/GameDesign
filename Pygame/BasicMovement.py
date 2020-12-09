@@ -45,48 +45,48 @@ def redrawWindow():
 
     screen.blit(tempSprite, (x,y))
     pygame.display.update()
-def main():
-    while running:
-        clock.tick(SpriteFrames)
-        for i in pygame.event.get():
-            if i.type == pygame.QUIT: #quit sequence
-                running = False
-        pygame.time.delay(100)
-        #moving our rectangle
-        KeyPress=pygame.key.get_pressed()
-        #check what key was get_pressed
-        speed = 10
-        if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
-            x -= speed
-            left = True
-            right = False
-        elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
-            x += speed
-            left = False
-            right = True
-        #reset code when not moving
-        else:
+
+while running:
+    clock.tick(SpriteFrames)
+    for i in pygame.event.get():
+        if i.type == pygame.QUIT: #quit sequence
+            running = False
+    pygame.time.delay(100)
+    #moving our rectangle
+    KeyPress=pygame.key.get_pressed()
+    #check what key was get_pressed
+    speed = 10
+    if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
+        x -= speed
+        left = True
+        right = False
+    elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
+        x += speed
+        left = False
+        right = True
+    #reset code when not moving
+    else:
+        left = False
+        right = False
+        walkCount = 0
+    #jump code
+    if not(jump): # moving y without jump
+        if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
+            y -= speed
+        if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
+            y += speed
+        if KeyPress[pygame.K_SPACE]:
+            jump = True
             left = False
             right = False
             walkCount = 0
-        #jump code
-        if not(jump): # moving y without jump
-            if KeyPress[pygame.K_UP] and y > speed: #Subtract from y (optional up movement)
-                y -= speed
-            if KeyPress[pygame.K_DOWN] and x < HEIGHT - h - speed: # add to y (optional donwnmovement)
-                y += speed
-            if KeyPress[pygame.K_SPACE]:
-                jump = True
-                left = False
-                right = False
-                walkCount = 0
+    else:
+        if high >=-10:
+            y -= (high*abs(high)) /2
+            high -= 1
         else:
-            if high >=-10:
-                y -= (high*abs(high)) /2
-                high -= 1
-            else:
-                high = 10
-                jump = False
-        redrawWindow()
-main()
+            high = 10
+            jump = False
+    redrawWindow()
+
 pygame.quit()
