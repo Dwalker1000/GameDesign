@@ -2,7 +2,7 @@ import pygame, random, sys
 
 # the game will have meteors falling from the sky
 # if player gets hit they louse
-# score will be decided based on the dificlty and ime survived
+# score will be decided based on the dificlty and meteors that fall of screen
 pygame.init()
 #imports
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight1.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight2.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight3.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight4.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight5.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight6.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight7.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight8.png")]
@@ -23,15 +23,15 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 running = True
 click = False
 alive = True
-x = 368 #where character starts disance from left wall
-y = 688 #where character starts distance from top
-w = 64 #width of character X
-h = 64 #height of character Y
+player_x = 368 #where character starts disance from left wall
+player_y = 688 #where character starts distance from top
+player_Size = 64 #width and height of character
 
 #meteor code
 meteor_Size = 64
-meteor_x = [random.randint(0,WIDTH-meteor_Size), 0]
-meteor_y = 0
+meteor_pos = [random.randint(0,WIDTH-meteor_Size), 0]
+meteor_list = [meteor_pos]
+meteor_speed = 0
 
 #jump code/walk
 jump = False
@@ -58,44 +58,94 @@ Left = False #sets default side facing the right
 
 #dificulty
 dificlty = None
+dificlty_multiplyer = 1
+score = 0
 
-#window
-def redrawWindow(dificlty, alive):
+#level SPEED
+def level_speed(score,meteor_speed,dificlty_multiplyer):
+    if score < 20:
+        meteor_speed = 5 * dificlty_multiplyer
+    elif score < 40:
+        meteor_speed = 8*dificlty_multiplyer
+    elif score < 60:
+        meteor_speed = 12*dificlty_multiplyer
+    else:
+        meteor_speed = 15*dificlty_multiplyer
+    return meteor_speed
+
+#drop meteors
+def meteor_fall(meteor_list):
+    delay = random.random()
+    if len(meteor_list) < 10 and delay < 0.1:
+        x_pos = random.randint(0,WIDTH-meteor_Size)
+        y_pos = 0
+        meteor_list.append([x_pos, y_pos])
+
+#draw meteors
+def metero_draw(meteor_list):
+    for meteor_pos in meteor_list:
+        screen.blit(meteor, (meteor_pos[0], meteor_pos[1]))
+
+#updates meteor/adds score
+def meteor_up(meteor_list, score):
+	for xyz, meteor_pos in enumerate(meteor_list):
+        #moves meteor down
+		if meteor_pos[1] >= 0 and meteor_pos[1] < HEIGHT:
+			meteor_pos[1] += meteor_speed
+        #adds score if meteor goes of screen
+		else:
+			meteor_list.pop(xyz)
+			score += 1
+	return score
+
+#checks for player colision wih meteor
+def collision_check(enemy_list, player_pos):
+	for meteor_pos in meteor_list:
+		if colision(meteor_pos, (player_x, player_y)):
+			return True
+	return False
+
+#more colision
+def colision(player_pos, meteor_pos):
+    if (meteor_pos[0] >= player_x and meteor_pos[0] < (player_x + player_Size)) or (player_x >= meteor_pos[0] and player_x < (meteor_pos[0]+meteor_Size)):
+        if (meteor_pos[1] >= player_y and meteor_pos[1] < (player_y + player_Size)) or (player_y >= meteor_pos[1] and player_y < (meteor_pos[1]+meteor_Size)):
+            return True
+    return False
+#character draw
+def player_draw():
     KeyPress=pygame.key.get_pressed()
     global walkCount
-    global x
+    global player_x
     global speed
     global true
     global jump
     global jumpRight
     global jumpLeft
     global Left
-    global meteor
 
     #sprite movement rendering code
-    screen.blit(background, (0,0))
     if walkCount + 1 >= SpriteFrames:
         walkCount = 0
     if left:
         Left = True
         if jump == True:
-            screen.blit((jumpLeft), (x,y))
+            screen.blit((jumpLeft), (player_x,player_y))
         else:
-            screen.blit(walkLeft[walkCount//3],(x,y))
+            screen.blit(walkLeft[walkCount//3],(player_x,player_y))
             walkCount += 1
     elif right:
         Left = False
         if jump == True:
-            screen.blit((jumpRight), (x,y))
+            screen.blit((jumpRight), (player_x,player_y))
         else:
-            screen.blit(walkRight[walkCount//3], (x,y))
+            screen.blit(walkRight[walkCount//3], (player_x,player_y))
             walkCount +=1
     else:
         if Left == True:
-            screen.blit((characterLeft),(x,y))
+            screen.blit((characterLeft),(player_x,player_y))
             walkCount = 0
         else:
-            screen.blit((characterRight),(x,y))
+            screen.blit((characterRight),(player_x,player_y))
             walkCount = 0
     #screen update
     pygame.display.update()
@@ -118,8 +168,8 @@ def menu():
     global run
     global click
 
-    x = True
-    while x == True:
+    loop = True
+    while loop == True:
         #mouse position and white fill
         mx, my = pygame.mouse.get_pos()
         screen.fill((255,255,255))
@@ -174,27 +224,30 @@ def menu():
             if click:
                 screen.fill((0,0,0))
                 dificlty = "easy"
+                dificlty_multiplyer = 0.5
                 pygame.display.update()
-                x = False
-                main(dificlty)
+                loop = False
+                main()
                 pass
         #normal
         if button_2.collidepoint((mx,my)):
             if click:
                 screen.fill((0,0,0))
                 dificlty = "normal"
+                dificlty_multiplyer = 1
                 pygame.display.update()
-                x = False
-                main(dificlty)
+                loop = False
+                main()
                 pass
         #Hard
         if button_3.collidepoint((mx,my)):
             if click:
                 screen.fill((0,0,0))
                 dificlty = "hard"
+                dificlty_multiplyer = 2
                 pygame.display.update()
-                x = False
-                maindificlty
+                loop = False
+                main()
                 pass
         #scoreboard
         if button_4.collidepoint((mx,my)):
@@ -209,57 +262,80 @@ def menu():
         click = False
 
 #main
-def main(dificlty):
+def main():
     global running
+    global player_x
+    global player_y
     global jump
-    global x
-    global y
     global high
     global speed
     global Clock
     global right
     global left
+    global alive
+    global score
+    global meteor_speed
     while running and alive:
         clock.tick(SpriteFrames)
+        #exit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 sys.exit()
                 break
-        pygame.time.delay(100)
-        # movement
-        KeyPress=pygame.key.get_pressed()
-        #check what key was get_pressed
-        if KeyPress[pygame.K_LEFT] and x > speed: #subtract from x left movement
-            x -= speed
-            left = True
-            right = False
-        elif KeyPress[pygame.K_RIGHT] and x < WIDTH - w - speed: #Add to x right movement
-            x += speed
-            left = False
-            right = True
-        #reset code when not moving
-        else:
-            left = False
-            right = False
-            walkCount = 0
-        #jump code
-        if not(jump): # moving y without jump
-            if KeyPress[pygame.K_SPACE]:
-                jump = True
-                left = False
-                right = False
-                walkCount = 0
-        else:
-            if high >=-10:
-                y -= (high*abs(high)) /2
-                high -= 1
-            else:
-                high = 10
-                jump = False
-        redrawWindow(dificlty, alive)
-        meteor_1 = pygame.Rect(meteor_x,meteor_y,meteor_Size,meteor_Size)
-        pygame.draw.rect(screen, (0,0,255), (meteor_1))
+            if event.type == pygame.KEYDOWN:
+                # movement
+                KeyPress=pygame.key.get_pressed()
+                #check what key was get_pressed
+                if KeyPress[pygame.K_LEFT] and player_x > speed: #subtract from x left movement
+                    player_x -= speed
+                    left = True
+                    right = False
+                elif KeyPress[pygame.K_RIGHT] and player_x < WIDTH - speed: #Add to x right movement
+                    player_x += speed
+                    left = False
+                    right = True
+                #reset code when not moving
+                else:
+                    left = False
+                    right = False
+                    walkCount = 0
+                #jump code
+                if not(jump): # moving y without jump
+                    if KeyPress[pygame.K_SPACE]:
+                        jump = True
+                        left = False
+                        right = False
+                        walkCount = 0
+                else:
+                    if high >=-10:
+                        player_y -= (high*abs(high)) /2
+                        high -= 1
+                    else:
+                        high = 10
+                        jump = False
+                player_draw()
+
+        screen.blit(background, (0,0))
+
+        #meteor
+        metero_draw(meteor_list)
+        score = meteor_up(meteor_list, score)
+        meteor_speed = level_speed(score, meteor_speed, dificlty_multiplyer)
+
+        #score text
+        DisplayScore = WORD_FONT.render("Score" + str(score), 1, (0,0,0))
+        #display text
+        screen.blit(DisplayScore, (WIDTH-200, HEIGHT-40))
+
+        if colision((player_x,player_y), meteor_pos):
+            alive = False
+            break
+
+        metero_draw(meteor_list)
+
+        clock.tick(40)
         pygame.display.update()
+
 menu()
 pygame.quit()
