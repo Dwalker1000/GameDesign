@@ -1,4 +1,4 @@
-import pygame, random, sys
+import pygame, random, sys, os
 
 # the game will have meteors falling from the sky
 # if player gets hit they louse
@@ -117,6 +117,80 @@ def colision(player_x, player_y, meteor_pos):
             return True
     return False
 
+#message code
+def display_message(message):
+    pygame.time.delay(1000)
+    win.fill((255,255,255))
+    text = WORD_FONT.render(message, 1, (0,0,0))
+    win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
+    pygame.display.update()
+    pygame.time.delay(3000)
+
+#label code
+def makeLabel(text, fontSize, xpos, ypos, fontColour='black', font='Arial', background="clear"):
+    # make a text sprite
+    thisText = newLabel(text, fontSize, font, fontColour, xpos, ypos, background)
+    return thisText
+def showLabel(labelName):
+    textboxGroup.add(labelName)
+    if screenRefresh:
+        updateDisplay()
+
+#textbox code
+def makeTextBox(xpos, ypos, width, case=0, startingText="Please type here", maxLength=0, fontSize=22):
+    thisTextBox = newTextBox(startingText, xpos, ypos, width, case, maxLength, fontSize)
+    textboxGroup.add(thisTextBox)
+    return thisTextBox
+def showTextBox(textBoxName):
+    textboxGroup.add(textBoxName)
+    if screenRefresh:
+        updateDisplay()
+def textBoxInput(textbox, functionToCall=None, args=[]):
+    # starts grabbing key inputs, putting into textbox until enter pressed
+    global keydict
+    textbox.text = ""
+    returnVal = None
+    while True:
+        updateDisplay()
+        if functionToCall:
+            returnVal = functionToCall(*args)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    textbox.clear()
+                    if returnVal:
+                        return textbox.text, returnVal
+                    else:
+                        return textbox.text
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                else:
+                    textbox.update(event)
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+#scoreboard code
+def fileWrite():
+    #makes scren white
+    screen.fill((255,255,255))
+
+    #adds label
+    nameinput = makeLabel("enter your name", 40, 30,30,"black")
+    showLabel(nameinput)
+
+    #text box
+    wordbox = makeTextBox(60,30, 300, 0, "enter name here", 0, 24)
+    showTextBox(wordBox)
+    name = textBoxInput(wordbox)
+
+    #stores data to file
+    myFile = open("scoreboard.txt", "a")
+    myFile.write(name + score)
+    myFile.close()
+    menu()
+
 #character draw
 def player_draw():
     KeyPress=pygame.key.get_pressed()
@@ -155,15 +229,6 @@ def player_draw():
             walkCount = 0
     #screen update
     pygame.display.update()
-
-#message code
-def display_message(message):
-    pygame.time.delay(1000)
-    win.fill((255,255,255))
-    text = WORD_FONT.render(message, 1, (0,0,0))
-    win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
-    pygame.display.update()
-    pygame.time.delay(3000)
 
 #menu
 def menu():
@@ -336,11 +401,11 @@ def main():
         #display text
         screen.blit(DisplayScore, (WIDTH-200, HEIGHT-40))
 
-        if collision_check(player_x, player_y, meteor_list):
+        if collision_check(player_x, player_y, meteor_list) == True:
             alive = False
             dificlty = None
             dificlty_multiplyer = 1
-            menu()
+            fileWrite()
             break
 
         metero_draw(meteor_list)
