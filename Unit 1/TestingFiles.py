@@ -31,16 +31,13 @@ myFile = open("newFile.txt", "r")
 print(myFile.read())
 myFile.close()
 time.sleep(2)
-if os.path.exists("Game1.py"):
-    print("yes")
-else:
-    print("no")
 myFile = open("lineFile.txt", "w")
 for i in range(10):
     word = "this is line number " + str(i+1)+ "\r"
     myFile.write(word)
 myFile.close()
-myFile = open("lineFile.txt", "r")
+
+myFile = open("Scores.txt", "r")
 print(myFile.read())
 myFile.close()
 # ask user for name of the file to be created
@@ -49,3 +46,8 @@ myFile.close()
 # add something to a file (to what file fileName)
 # write something to a file(warning all data in file will be lost)
 # print what is in file
+
+
+myFile = open("Scores.txt", "r")
+print (myFile.read())
+myFile.close()

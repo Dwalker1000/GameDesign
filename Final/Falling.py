@@ -26,6 +26,7 @@ alive = True
 player_x = 368 #where character starts disance from left wall
 player_y = 688 #where character starts distance from top
 player_Size = 64 #width and height of character
+name = "none"
 
 #meteor code
 meteor_Size = 64
@@ -60,6 +61,48 @@ Left = False #sets default side facing the right
 dificlty = None
 dificlty_multiplyer = 1
 score = 0
+
+#Scores and text input
+scoreboard = []
+base_font = pygame.font.Font(None,24)
+user_text = ''
+
+#text box fro player to input name for scoreboard
+def nameinput():
+    global user_text
+    nameInputBool = True
+    while nameInputBool == True:
+        screen.fill((0,0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    user_text = user_text[:-1]
+                elif event.key == pygame.K_KP_ENTER:
+                    nameInputBool = False
+                else:
+                    user_text += event.unicode
+        input_rect = pygame.Rect(60,30,140,32)
+        pygame.draw.rect(screen,(255,255,255),input_rect,2)
+
+        title_surface = base_font.render("enter your name",True,(0,0,0))
+        screen.blit(title_surface, (30,30))
+
+        text_surface = base_font.render(user_text,True,(0,0,0))
+        screen.blit(text_surface, (input_rect.x + 5, input_rect.y +5))
+
+        input_rect.w = max(100, text_surface.get_width() + 10)
+
+    new_name = text_surface
+    return new_name
+
+#adds to scoreboard array
+def scoreboardAdd():
+    scorein = nameinput() + "\t" + str(score)
+    scoreboard.append(scorein)
+    menu()
 
 #level SPEED
 def level_speed(score,meteor_speed):
@@ -125,71 +168,6 @@ def display_message(message):
     win.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT/2 - text.get_height()/2))
     pygame.display.update()
     pygame.time.delay(3000)
-
-#label code
-def makeLabel(text, fontSize, xpos, ypos, fontColour='black', font='Arial', background="clear"):
-    # make a text sprite
-    thisText = newLabel(text, fontSize, font, fontColour, xpos, ypos, background)
-    return thisText
-def showLabel(labelName):
-    textboxGroup.add(labelName)
-    if screenRefresh:
-        updateDisplay()
-
-#textbox code
-def makeTextBox(xpos, ypos, width, case=0, startingText="Please type here", maxLength=0, fontSize=22):
-    thisTextBox = newTextBox(startingText, xpos, ypos, width, case, maxLength, fontSize)
-    textboxGroup.add(thisTextBox)
-    return thisTextBox
-def showTextBox(textBoxName):
-    textboxGroup.add(textBoxName)
-    if screenRefresh:
-        updateDisplay()
-def textBoxInput(textbox, functionToCall=None, args=[]):
-    # starts grabbing key inputs, putting into textbox until enter pressed
-    global keydict
-    textbox.text = ""
-    returnVal = None
-    while True:
-        updateDisplay()
-        if functionToCall:
-            returnVal = functionToCall(*args)
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    textbox.clear()
-                    if returnVal:
-                        return textbox.text, returnVal
-                    else:
-                        return textbox.text
-                elif event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-                else:
-                    textbox.update(event)
-            elif event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-#scoreboard code
-def fileWrite():
-    #makes scren white
-    screen.fill((255,255,255))
-
-    #adds label
-    nameinput = makeLabel("enter your name", 40, 30,30,"black")
-    showLabel(nameinput)
-
-    #text box
-    wordbox = makeTextBox(60,30, 300, 0, "enter name here", 0, 24)
-    showTextBox(wordBox)
-    name = textBoxInput(wordbox)
-
-    #stores data to file
-    myFile = open("scoreboard.txt", "a")
-    myFile.write(name + score)
-    myFile.close()
-    menu()
 
 #character draw
 def player_draw():
@@ -287,9 +265,9 @@ def menu():
                 sys.exit()
                 break
         #if mouse left clicks
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                click = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
         #button colision and action
         #easy
         if button_1.collidepoint((mx,my)):
@@ -327,8 +305,10 @@ def menu():
         #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                running = False
-                pass
+                for x in range (0,len(scoreboard)):
+                    print(scoreboard[x])
+                menu()
+                break
         #quit
         if button_5.collidepoint((mx,my)):
             if click:
@@ -403,9 +383,7 @@ def main():
 
         if collision_check(player_x, player_y, meteor_list) == True:
             alive = False
-            dificlty = None
-            dificlty_multiplyer = 1
-            fileWrite()
+            scoreboardAdd()
             break
 
         metero_draw(meteor_list)
@@ -413,6 +391,5 @@ def main():
 
         clock.tick(30)
         pygame.display.update()
-
 menu()
 pygame.quit()

@@ -4,63 +4,39 @@ pygame.init()
 WIDTH = 1000 # screen width
 HEIGHT = 800 # screen height
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-x = True
-#scoreboard code
 
-def makeLabel(text, fontSize, xpos, ypos, fontColour='black', font='Arial', background="clear"):
-    # make a text sprite
-    thisText = newLabel(text, fontSize, font, fontColour, xpos, ypos, background)
-    return thisText
-def showLabel(labelName):
-    textboxGroup.add(labelName)
-    if screenRefresh:
-        updateDisplay()
+base_font = pygame.font.Font(None,24)
+user_text = ''
 
-#textbox code
-def makeTextBox(xpos, ypos, width, case=0, startingText="Please type here", maxLength=0, fontSize=22):
-    thisTextBox = newTextBox(startingText, xpos, ypos, width, case, maxLength, fontSize)
-    textboxGroup.add(thisTextBox)
-    return thisTextBox
-def showTextBox(textBoxName):
-    textboxGroup.add(textBoxName)
-    if screenRefresh:
-        updateDisplay()
-def textBoxInput(textbox, functionToCall=None, args=[]):
-    # starts grabbing key inputs, putting into textbox until enter pressed
-    global keydict
-    textbox.text = ""
-    returnVal = None
-    while True:
-        updateDisplay()
-        if functionToCall:
-            returnVal = functionToCall(*args)
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    textbox.clear()
-                    if returnVal:
-                        return textbox.text, returnVal
-                    else:
-                        return textbox.text
-                elif event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+nameInputBool = True
+while nameInputBool == True:
+    screen.fill((0,0,0))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                user_text = user_text[:-1]
+            else:
+                if event.key == pygame.K_KP_ENTER:
+                    nameInputBool = False
                 else:
-                    textbox.update(event)
-            elif event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-def fileWrite():
-    #makes scren white
-    screen.fill((255,255,255))
+                    user_text += event.unicode
 
-    #adds label
-    nameinput = makeLabel("enter your name", 40, 30,30,"black")
-    showLabel(nameinput)
+    input_rect = pygame.Rect(30,30,140,32)
+    pygame.draw.rect(screen,(255,255,255),input_rect,2)
 
-    #text box
-    wordbox = makeTextBox(60,30, 300, 0, "enter name here", 0, 24)
-    showTextBox(wordBox)
-    name = textBoxInput(wordbox)
-while x == True:
-    fileWrite()
+    title_surface = base_font.render("enter your name",True,(255,255,255))
+    screen.blit(title_surface, (input_rect.x, 10))
+
+    text_surface = base_font.render(user_text,True,(255,255,255))
+    screen.blit(text_surface, (input_rect.x + 5, input_rect.y +5))
+
+    input_rect.w = max(100, text_surface.get_width() + 10)
+
+    pygame.display.update()
+
+    new_name = text_surface
+
+print(text_surface)
