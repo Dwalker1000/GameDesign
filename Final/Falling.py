@@ -62,11 +62,14 @@ dificlty = None
 dificlty_multiplyer = 1
 score = 0
 
-#Scores and text input
+#Scores and text input vars
 scoreboard = []
 base_font = pygame.font.Font(None,24)
 user_text = ''
 scoreboardLength = 0
+name = ''
+#counter for scorebord print
+x=0
 
 #text box fro player to input name for scoreboard
 def nameinput():
@@ -74,25 +77,30 @@ def nameinput():
     nameInputBool = True
     while nameInputBool == True:
         screen.fill((0,0,0))
+        #quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            #typing
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     user_text = user_text[:-1]
+                #if return finish otherwise add the keypress to the text
                 else:
                     if event.key == pygame.K_RETURN:
                         nameInputBool = False
                     else:
                         user_text += event.unicode
-
+        #text box
         input_rect = pygame.Rect(30,30,140,32)
         pygame.draw.rect(screen,(255,255,255),input_rect,2)
 
-        title_surface = base_font.render("enter your name",True,(255,255,255))
+        #basic text
+        title_surface = base_font.render("enter username for scorebord. press enter to continue.",True,(255,255,255))
         screen.blit(title_surface, (input_rect.x, 10))
 
+        #rendering text
         text_surface = base_font.render(user_text,True,(255,255,255))
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y +5))
 
@@ -100,18 +108,21 @@ def nameinput():
 
         pygame.display.update()
 
-    new_name = text_surface
-    return str(new_name)
+    name = text_surface
+    return str(name)
 
 #adds to scoreboard array
 def scoreboardAdd():
     global scoreboardLength
-    scorein = nameinput() + "\t" + str(score)
+    #adds to the length of array and adds to it
+    scorein = nameinput() + " " + str(score)
     scoreboard.append(scorein)
     scoreboardLength += 1
+    menu()
 
 #level SPEED
 def level_speed(score,meteor_speed):
+    #changes speed depending no your score and your multiplyer
     if score < 20:
         meteor_speed = 5 * dificlty_multiplyer
     elif score < 40:
@@ -125,6 +136,7 @@ def level_speed(score,meteor_speed):
 #drop meteors
 def meteor_fall(meteor_list):
     delay = random.random()
+    #list of meteors  amount on screen delay between spawn higher the faster
     if len(meteor_list) < 30 and delay < .25:
         x_pos = random.randint(0,WIDTH-meteor_Size)
         y_pos = 0
@@ -132,6 +144,7 @@ def meteor_fall(meteor_list):
 
 #draw meteors
 def metero_draw(meteor_list):
+    #draws meteor
     for meteor_pos in meteor_list:
         screen.blit(meteor, (meteor_pos[0], meteor_pos[1]))
 
@@ -149,6 +162,7 @@ def meteor_up(meteor_list, score):
 
 #checks for player colision wih meteor
 def collision_check(player_x, player_y, meteor_pos):
+    #check for colision
 	for meteor_pos in meteor_list:
 		if colision(player_x, player_y, meteor_pos):
 			return True
@@ -161,6 +175,7 @@ def colision(player_x, player_y, meteor_pos):
 
     m_x = meteor_pos[0]
     m_y = meteor_pos[1]
+    #collision equasion
     if (m_x >= p_x and m_x < (p_x + player_Size)) or (p_x >= m_x and p_x < (m_x+meteor_Size)):
         if (m_y >= p_y and m_y < (p_y + player_Size)) or (p_y >= m_y and p_y < (m_y+meteor_Size)):
             return True
@@ -223,6 +238,7 @@ def menu():
     global run
     global click
     global dificlty_multiplyer
+    global x
 
     loop = True
     while loop == True:
@@ -253,6 +269,7 @@ def menu():
         text5 = WORD_FONT.render("hard", 1, (0,0,0))
         text6 = WORD_FONT.render("scoreboard", 1, (0,0,0))
         text7 = WORD_FONT.render("quit", 1, (0,0,0))
+
         #text display
         screen.blit(text1, (int(WIDTH/2 - (text1.get_width()/2)), 20))
         screen.blit(text2, (int(WIDTH/2 - text2.get_width()/2), 90))
@@ -266,11 +283,12 @@ def menu():
         screen.blit(text7, (int(WIDTH/1.5 - text7.get_width()/2), 500))
         pygame.display.update()
         for event in pygame.event.get():
+            #exit
             if event.type == pygame.QUIT:
                 running = False
                 sys.exit()
                 break
-        #if mouse left clicks
+            #if mouse left clicks
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -311,9 +329,8 @@ def menu():
         #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                for x in range (0,scoreboardLength):
-                    scoreB = scoreboard[x]
-                    print(scoreB)
+                print (str(name + " " + scoreboard[x]))
+                x=0
                 menu()
                 break
         #quit
@@ -388,6 +405,7 @@ def main():
         #display text
         screen.blit(DisplayScore, (WIDTH-200, HEIGHT-40))
 
+        #checks for colision and adds to scoreboard 
         if collision_check(player_x, player_y, meteor_list) == True:
             alive = False
             scoreboardAdd()
