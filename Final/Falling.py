@@ -66,6 +66,7 @@ score = 0
 scoreboard = []
 base_font = pygame.font.Font(None,24)
 user_text = ''
+scoreboardLength = 0
 
 #text box fro player to input name for scoreboard
 def nameinput():
@@ -80,29 +81,34 @@ def nameinput():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     user_text = user_text[:-1]
-                elif event.key == pygame.K_KP_ENTER:
-                    nameInputBool = False
                 else:
-                    user_text += event.unicode
-        input_rect = pygame.Rect(60,30,140,32)
+                    if event.key == pygame.K_RETURN:
+                        nameInputBool = False
+                    else:
+                        user_text += event.unicode
+
+        input_rect = pygame.Rect(30,30,140,32)
         pygame.draw.rect(screen,(255,255,255),input_rect,2)
 
-        title_surface = base_font.render("enter your name",True,(0,0,0))
-        screen.blit(title_surface, (30,30))
+        title_surface = base_font.render("enter your name",True,(255,255,255))
+        screen.blit(title_surface, (input_rect.x, 10))
 
-        text_surface = base_font.render(user_text,True,(0,0,0))
+        text_surface = base_font.render(user_text,True,(255,255,255))
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y +5))
 
         input_rect.w = max(100, text_surface.get_width() + 10)
 
+        pygame.display.update()
+
     new_name = text_surface
-    return new_name
+    return str(new_name)
 
 #adds to scoreboard array
 def scoreboardAdd():
+    global scoreboardLength
     scorein = nameinput() + "\t" + str(score)
     scoreboard.append(scorein)
-    menu()
+    scoreboardLength += 1
 
 #level SPEED
 def level_speed(score,meteor_speed):
@@ -305,8 +311,9 @@ def menu():
         #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                for x in range (0,len(scoreboard)):
-                    print(scoreboard[x])
+                for x in range (0,scoreboardLength):
+                    scoreB = scoreboard[x]
+                    print(scoreB)
                 menu()
                 break
         #quit
@@ -384,6 +391,7 @@ def main():
         if collision_check(player_x, player_y, meteor_list) == True:
             alive = False
             scoreboardAdd()
+            menu()
             break
 
         metero_draw(meteor_list)

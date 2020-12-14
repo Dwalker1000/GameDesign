@@ -1,4 +1,4 @@
-import pygame, os
+import pygame, sys
 
 pygame.init()
 WIDTH = 1000 # screen width
@@ -19,7 +19,7 @@ while nameInputBool == True:
             if event.key == pygame.K_BACKSPACE:
                 user_text = user_text[:-1]
             else:
-                if event.key == pygame.K_KP_ENTER:
+                if event.key == pygame.K_RETURN:
                     nameInputBool = False
                 else:
                     user_text += event.unicode
