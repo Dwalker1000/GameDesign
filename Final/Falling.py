@@ -26,7 +26,6 @@ alive = True
 player_x = 368 #where character starts disance from left wall
 player_y = 688 #where character starts distance from top
 player_Size = 64 #width and height of character
-name = "none"
 
 #meteor code
 meteor_Size = 64
@@ -67,7 +66,9 @@ scoreboard = []
 base_font = pygame.font.Font(None,24)
 user_text = ''
 scoreboardLength = 0
-name = ''
+namein = ''
+name = [namein]
+
 #counter for scorebord print
 x=0
 
@@ -108,15 +109,15 @@ def nameinput():
 
         pygame.display.update()
 
-    name = text_surface
-    return str(name)
+    namein = text_surface
+    name[scoreboardLength] = namein
 
 #adds to scoreboard array
 def scoreboardAdd():
     global scoreboardLength
-    #adds to the length of array and adds to it
-    scorein = nameinput() + " " + str(score)
-    scoreboard.append(scorein)
+    #adds to the length of array and adds to
+    nameinput()
+    scoreboard.append(score)
     scoreboardLength += 1
     menu()
 
@@ -329,10 +330,13 @@ def menu():
         #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                print (str(name + " " + scoreboard[x]))
-                x=0
-                menu()
-                break
+                for x in range (0,scoreboardLength):
+                    nameprint = name[x]
+                    scoreprint = scoreboard[x]
+                    print (nameprint + " " + str(scoreprint))
+                    x=0
+                    menu()
+                    break
         #quit
         if button_5.collidepoint((mx,my)):
             if click:
@@ -405,7 +409,7 @@ def main():
         #display text
         screen.blit(DisplayScore, (WIDTH-200, HEIGHT-40))
 
-        #checks for colision and adds to scoreboard 
+        #checks for colision and adds to scoreboard
         if collision_check(player_x, player_y, meteor_list) == True:
             alive = False
             scoreboardAdd()
