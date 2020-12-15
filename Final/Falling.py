@@ -3,6 +3,9 @@ import pygame, random, sys, os
 # the game will have meteors falling from the sky
 # if player gets hit they louse
 # score will be decided based on the dificlty and meteors that fall off the screen
+#more psudocode
+#https://docs.google.com/document/d/1jn9uq9lo-wiA5ExyEtRhGiUVOSR0DulT8XnxGLtrCSE/edit#heading=h.gakfm6o84chp
+
 pygame.init()
 #imports
 walkRight = [pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight1.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight2.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight3.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight4.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight5.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight6.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight7.png"), pygame.image.load("C:\\Users\\walkerd24\\github\\GameDesign\\Final\\sprites\\WalkRight8.png")]
@@ -333,7 +336,7 @@ def menu():
                 for x in range (0,scoreboardLength):
                     nameprint = name[x]
                     scoreprint = scoreboard[x]
-                    print (nameprint + " " + str(scoreprint))
+                    print (str(nameprint) + " " + str(scoreprint))
                     x=0
                     menu()
                     break
@@ -421,5 +424,6 @@ def main():
 
         clock.tick(30)
         pygame.display.update()
+
 menu()
 pygame.quit()
