@@ -333,7 +333,7 @@ def menu():
         #scoreboard
         if button_4.collidepoint((mx,my)):
             if click:
-                for x in range (0,1):
+                for x in range (0,scoreboardLength):
                     nameprint = name[x]
                     scoreprint = scoreboard[x]
                     print (str(nameprint) + " " + str(scoreprint))
